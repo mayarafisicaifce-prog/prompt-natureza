@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d35">
+  <title>IDEIA Natureza | Gerador de Prompt Mestre</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{--forest:#123d35;--forest2:#1c5b4c;--mint:#eaf5ef;--lime:#c7ee78;--ink:#172b27;--muted:#657772;--line:#dce7e2}
+    body{background:#f5f8f6;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .navbar{background:var(--forest);box-shadow:0 5px 20px #123d351a}
+    .brand-mark{width:38px;height:38px;border-radius:12px;background:var(--lime);display:grid;place-items:center;color:var(--forest);font-weight:900}
+    .hero{background:linear-gradient(120deg,var(--forest),#1c5b4c);color:white;border-radius:24px;padding:clamp(1.5rem,4vw,3rem);position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:250px;height:250px;border:1px solid #ffffff22;border-radius:50%;right:-55px;top:-80px;box-shadow:0 0 0 28px #ffffff09,0 0 0 58px #ffffff06}
+    .eyebrow{color:var(--lime);font-size:.76rem;letter-spacing:.14em;font-weight:800;text-transform:uppercase}
+    .section-card{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 28px #193b3010}
+    .section-head{display:flex;gap:.8rem;align-items:center}
+    .section-icon{height:42px;width:42px;display:grid;place-items:center;border-radius:13px;background:var(--mint);font-size:1.25rem}
+    .form-label{font-size:.88rem;font-weight:700;color:#29443d}
+    .form-control,.form-select{border-color:#d6e2dc;border-radius:11px;padding:.72rem .85rem}
+    .form-control:focus,.form-select:focus{border-color:#4c9c7f;box-shadow:0 0 0 .2rem #4c9c7f20}
+    .subject-card{border:1px solid var(--line);border-radius:15px;padding:1rem;height:100%;background:#fff}
+    .subject-card:has(input:checked){border-color:#4c9c7f;background:#f5fbf7}
+    .form-check-input:checked{background-color:var(--forest2);border-color:var(--forest2)}
+    .resource-chip{border:1px solid var(--line);border-radius:12px;padding:.65rem .75rem;height:100%;background:#fff}
+    .resource-chip:has(input:checked){border-color:#4c9c7f;background:var(--mint)}
+    .btn-forest{background:var(--forest);color:white;border:0;border-radius:12px;padding:.85rem 1.1rem;font-weight:750}
+    .btn-forest:hover{background:var(--forest2);color:white}
+    .btn-outline-forest{border:1px solid var(--forest2);color:var(--forest2);border-radius:11px;font-weight:700}
+    .btn-outline-forest:hover{background:var(--forest2);color:white}
+    .output{background:#102b26;color:#e8f5ee;border-radius:16px;padding:1.1rem;white-space:pre-wrap;min-height:220px;max-height:540px;overflow:auto;font: .88rem/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .sticky-panel{position:sticky;top:1rem}
+    .tiny-label{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800}
+    .footer{color:#73837e}
+    @media(max-width:991px){.sticky-panel{position:static}}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-dark py-3">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+      <span class="brand-mark">I</span><span>IDEIA <span style="color:var(--lime)">NATUREZA</span></span>
+    </a>
+    <span class="text-white-50 small d-none d-sm-inline">Laboratório de prompts pedagógicos</span>
+  </div>
+</nav>
+
+<main class="container py-4 py-lg-5">
+  <section class="hero mb-4 mb-lg-5">
+    <div class="row align-items-center position-relative" style="z-index:1">
+      <div class="col-lg-8">
+        <div class="eyebrow mb-3">Ciências da Natureza • Planejamento com intenção</div>
+        <h1 class="display-5 fw-bold mb-3">Seu planejamento começa com um bom prompt.</h1>
+        <p class="lead mb-0 text-white-50">Configure o conteúdo, o objetivo pedagógico e os recursos visuais. O gerador organiza tudo em um Prompt Mestre claro, específico e pronto para usar.</p>
+      </div>
+      <div class="col-lg-4 d-none d-lg-flex justify-content-end">
+        <div class="text-center p-4 rounded-4" style="background:#ffffff12;border:1px solid #ffffff25">
+          <div style="font-size:3rem">🧬 ⚛️ 🧪</div>
+          <div class="fw-semibold mt-2">Biologia · Física · Química</div>
+          <small class="text-white-50">Uma ferramenta, três áreas</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <form id="promptForm">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <section class="section-card p-3 p-md-4 mb-4">
+          <div class="section-head mb-4">
+            <div class="section-icon">🎯</div>
+            <div><h2 class="h5 fw-bold mb-1">1. Contexto pedagógico</h2><p class="small text-secondary mb-0">Defina para quem e para quê o material será criado.</p></div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="etapa">Etapa de ensino</label>
+              <select class="form-select" id="etapa"><option>Ensino Fundamental — Anos Finais</option><option selected>Ensino Médio</option><option>Ensino Fundamental — Anos Iniciais</option><option>Educação de Jovens e Adultos (EJA)</option><option>Ensino Técnico</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="serie">Ano/série</label><input class="form-control" id="serie" placeholder="Ex.: 1ª série do Ensino Médio"></div>
+            <div class="col-md-6"><label class="form-label" for="produto">O que deseja criar?</label>
+              <select class="form-select" id="produto"><option>Atividade investigativa</option><option>Plano de aula</option><option selected>Lista de exercícios</option><option>Avaliação com gabarito comentado</option><option>Sequência didática</option><option>Texto de apoio / apostila</option><option>Experimento ou prática demonstrativa</option><option>Projeto interdisciplinar</option><option>Recurso educacional digital</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="nivel">Nível de complexidade</label>
+              <select class="form-select" id="nivel"><option>Introdutório</option><option selected>Intermediário</option><option>Avançado</option><option>Progressivo (fácil a difícil)</option></select></div>
+            <div class="col-12"><label class="form-label" for="temaGeral">Tema / objetivo de aprendizagem</label><input class="form-control" id="temaGeral" placeholder="Ex.: compreender a transformação de energia nos ecossistemas" required></div>
+            <div class="col-md-6"><label class="form-label" for="bncc">Habilidade BNCC / currículo (opcional)</label><input class="form-control" id="bncc" placeholder="Ex.: EM13CNT202"></div>
+            <div class="col-md-6"><label class="form-label" for="quantidade">Quantidade ou duração</label><input class="form-control" id="quantidade" placeholder="Ex.: 10 questões ou 50 minutos"></div>
+            <div class="col-12"><label class="form-label" for="contexto">Contexto da turma / observações</label><textarea class="form-control" id="contexto" rows="2" placeholder="Conhecimentos prévios, dificuldades frequentes, materiais disponíveis..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="section-card p-3 p-md-4 mb-4">
+          <div class="section-head mb-3">
+            <div class="section-icon">🔬</div>
+            <div><h2 class="h5 fw-bold mb-1">2. Áreas do conhecimento</h2><p class="small text-secondary mb-0">Selecione uma ou mais disciplinas e detalhe os conteúdos.</p></div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4"><div class="subject-card">
+              <div class="form-check mb-3"><input class="form-check-input subject-toggle" type="checkbox" value="Biologia" id="bio" checked><label class="form-check-label fw-bold" for="bio">🧬 Biologia</label></div>
+              <label class="form-label" for="temaBio">Conteúdo específico</label><textarea class="form-control" id="temaBio" rows="3" placeholder="Ex.: genética, ecologia, citologia"></textarea>
+            </div></div>
+            <div class="col-md-4"><div class="subject-card">
+              <div class="form-check mb-3"><input class="form-check-input subject-toggle" type="checkbox" value="Física" id="fis"><label class="form-check-label fw-bold" for="fis">⚛️ Física</label></div>
+              <label class="form-label" for="temaFis">Conteúdo específico</label><textarea class="form-control" id="temaFis" rows="3" placeholder="Ex.: Leis de Newton, energia, circuitos"></textarea>
+            </div></div>
+            <div class="col-md-4"><div class="subject-card">
+              <div class="form-check mb-3"><input class="form-check-input subject-toggle" type="checkbox" value="Química" id="qui"><label class="form-check-label fw-bold" for="qui">🧪 Química</label></div>
+              <label class="form-label" for="temaQui">Conteúdo específico</label><textarea class="form-control" id="temaQui" rows="3" placeholder="Ex.: ligações, estequiometria, soluções"></textarea>
+            </div></div>
+          </div>
+          <div class="form-text mt-3">Dica: marque apenas as áreas que devem aparecer no material final.</div>
+        </section>
+
+        <section class="section-card p-3 p-md-4 mb-4">
+          <div class="section-head mb-4">
+            <div class="section-icon">🖼️</div>
+            <div><h2 class="h5 fw-bold mb-1">3. Recursos visuais e representações</h2><p class="small text-secondary mb-0">Escolha os apoios que a IA deverá incorporar ou descrever.</p></div>
+          </div>
+          <div class="row g-2">
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Tabela periódica legível, organizada e cientificamente correta"><span>🧪 <span class="fw-semibold">Tabela periódica</span><small class="d-block text-secondary">Elementos, grupos e períodos</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Diagramas científicos com legendas e setas explicativas"><span>🔀 <span class="fw-semibold">Diagramas e esquemas</span><small class="d-block text-secondary">Processos, ciclos e relações</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Gráficos com eixos, unidades, escala e fonte dos dados"><span>📈 <span class="fw-semibold">Gráficos e dados</span><small class="d-block text-secondary">Leitura e interpretação</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Ilustrações científicas com identificação das estruturas"><span>🔬 <span class="fw-semibold">Ilustrações científicas</span><small class="d-block text-secondary">Células, órgãos e modelos</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Fórmulas, equações químicas ou expressões matemáticas bem formatadas"><span>∑ <span class="fw-semibold">Fórmulas e equações</span><small class="d-block text-secondary">Símbolos e unidades corretos</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Tabelas comparativas com cabeçalhos e unidades explícitas"><span>▦ <span class="fw-semibold">Tabelas comparativas</span><small class="d-block text-secondary">Organização de informações</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Mapas conceituais com hierarquia e conexões nomeadas"><span>🕸️ <span class="fw-semibold">Mapa conceitual</span><small class="d-block text-secondary">Conceitos e conexões</small></span></label></div>
+            <div class="col-sm-6"><label class="resource-chip d-flex gap-2 align-items-start"><input class="form-check-input mt-1 visual" type="checkbox" value="Experimento seguro com materiais, procedimento, variáveis e cuidados"><span>🧫 <span class="fw-semibold">Roteiro experimental</span><small class="d-block text-secondary">Investigação segura</small></span></label></div>
+          </div>
+          <div class="row g-3 mt-2">
+            <div class="col-md-6"><label class="form-label" for="estilo">Estilo visual</label><select class="form-select" id="estilo"><option>Limpo e didático</option><option>Infográfico colorido</option><option>Ilustração científica realista</option><option>Minimalista para impressão econômica</option><option>Visual lúdico para estudantes</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="acessibilidade">Acessibilidade</label><select class="form-select" id="acessibilidade"><option>Contraste adequado e linguagem clara</option><option>Alto contraste e fonte ampliada</option><option>Texto simplificado e instruções segmentadas</option><option>Descrição textual de todos os elementos visuais</option><option>Combinar alto contraste, descrição e linguagem clara</option></select></div>
+          </div>
+        </section>
+
+        <section class="section-card p-3 p-md-4 mb-4">
+          <div class="section-head mb-4">
+            <div class="section-icon">🧠</div>
+            <div><h2 class="h5 fw-bold mb-1">4. Critérios de qualidade</h2><p class="small text-secondary mb-0">Ajuste o formato da resposta e as exigências pedagógicas.</p></div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="metodologia">Abordagem pedagógica</label><select class="form-select" id="metodologia"><option>Exposição dialogada e prática</option><option>Aprendizagem baseada em problemas</option><option>Investigação científica</option><option>Gamificação</option><option>Sala de aula invertida</option><option>Contextualização com situações do cotidiano</option><option>Ensino explícito com exemplos graduais</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="avaliacao">Avaliação / gabarito</label><select class="form-select" id="avaliacao"><option>Gabarito simples ao final</option><option selected>Gabarito comentado e justificativas</option><option>Rubrica com critérios de avaliação</option><option>Sem gabarito na versão do estudante</option><option>Versão do estudante e guia do professor separados</option></select></div>
+            <div class="col-12"><label class="form-label" for="restricoes">Restrições ou instruções adicionais</label><textarea class="form-control" id="restricoes" rows="2" placeholder="Ex.: não usar alternativas em questões abertas; não inventar códigos BNCC; incluir resolução passo a passo..."></textarea></div>
+          </div>
+        </section>
+        <button class="btn btn-forest btn-lg w-100" type="submit">✨ Gerar Prompt Mestre</button>
+      </div>
+
+      <div class="col-lg-4">
+        <aside class="section-card p-3 p-md-4 sticky-panel">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div><div class="tiny-label">Resultado</div><h2 class="h5 fw-bold mb-0">Prompt Mestre</h2></div>
+            <span class="badge rounded-pill text-bg-success">Editável</span>
+          </div>
+          <p class="small text-secondary">O texto será montado com base nas suas escolhas. Gere, revise e copie para a IA de sua preferência.</p>
+          <div id="placeholder" class="rounded-4 p-4 text-center mb-3" style="background:var(--mint)">
+            <div style="font-size:2rem">✍️</div><div class="fw-bold mt-2">Seu prompt aparecerá aqui</div><div class="small text-secondary mt-1">Preencha os campos e clique em “Gerar Prompt Mestre”.</div>
+          </div>
+          <textarea id="resultado" class="form-control d-none mb-3" rows="18" aria-label="Prompt Mestre gerado"></textarea>
+          <div class="d-grid gap-2">
+            <button id="copiar" class="btn btn-forest" type="button" disabled>Copiar Prompt</button>
+            <button id="baixar" class="btn btn-outline-forest" type="button" disabled>Baixar .txt</button>
+            <button id="limpar" class="btn btn-outline-secondary" type="button">Limpar formulário</button>
+          </div>
+          <div id="feedback" class="small mt-3" role="status" aria-live="polite"></div>
+          <hr class="my-4">
+          <div class="tiny-label mb-2">O Prompt Mestre sempre pede</div>
+          <ul class="small text-secondary ps-3 mb-0">
+            <li>Precisão científica e revisão de conceitos.</li>
+            <li>Alinhamento curricular sem inventar códigos.</li>
+            <li>Instruções claras e adequadas à etapa escolar.</li>
+            <li>Recursos visuais legíveis e acessíveis.</li>
+            <li>Revisão docente antes de usar em sala.</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </form>
+  <footer class="text-center small footer py-4 mt-4">IDEIA Natureza · Ferramenta de apoio ao planejamento docente · Revise e adapte os materiais antes de aplicá-los.</footer>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const value = id => $(id).value.trim();
+  const checkedValues = selector => [...document.querySelectorAll(selector + ':checked')].map(el => el.value);
+  const clean = arr => arr.filter(Boolean);
+  $('promptForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const areas = [];
+    if ($('bio').checked) areas.push(`BIOLOGIA: ${value('temaBio') || 'desenvolva o tema geral informado, com enfoque biológico pertinente'}`);
+    if ($('fis').checked) areas.push(`FÍSICA: ${value('temaFis') || 'desenvolva o tema geral informado, com enfoque físico pertinente'}`);
+    if ($('qui').checked) areas.push(`QUÍMICA: ${value('temaQui') || 'desenvolva o tema geral informado, com enfoque químico pertinente'}`);
+    if (!areas.length) {
+      $('feedback').textContent = 'Selecione pelo menos uma área: Biologia, Física ou Química.';
+      $('feedback').className = 'small mt-3 text-danger';
+      return;
+    }
+    if (!value('temaGeral')) {
+      $('temaGeral').focus();
+      $('feedback').textContent = 'Informe o tema ou objetivo de aprendizagem.';
+      $('feedback').className = 'small mt-3 text-danger';
+      return;
+    }
+    const visuals = checkedValues('.visual');
+    const prompt = `PROMPT MESTRE — CIÊNCIAS DA NATUREZA
+IDEIA Natureza | Gerador de prompts pedagógicos
+
+PAPEL
+Atue como especialista em ensino de Ciências da Natureza, planejamento didático, avaliação e comunicação científica. Produza um material pedagogicamente consistente, cientificamente correto e pronto para revisão por um(a) professor(a).
+
+CONTEXTO
+- Etapa de ensino: ${value('etapa')}
+- Ano/série: ${value('serie') || 'não especificado; adapte à etapa selecionada'}
+- Produto solicitado: ${value('produto')}
+- Tema / objetivo de aprendizagem: ${value('temaGeral')}
+- Nível de complexidade: ${value('nivel')}
+- Quantidade ou duração: ${value('quantidade') || 'sugira uma extensão adequada ao objetivo'}
+- Habilidade BNCC / currículo informada: ${value('bncc') || 'não informada; não invente códigos ou atribuições curriculares'}
+- Contexto da turma: ${value('contexto') || 'não informado; explicite brevemente quaisquer pressupostos necessários'}
+
+ÁREAS E CONTEÚDOS
+${areas.map(x => '- ' + x).join('\n')}
+
+ORIENTAÇÕES PEDAGÓGICAS
+- Abordagem: ${value('metodologia')}
+- Complexidade: ${value('nivel')}; avance de forma gradual quando apropriado.
+- Avaliação e respostas: ${value('avaliacao')}
+- Use linguagem apropriada à etapa, exemplos contextualizados e comandos inequívocos.
+- Conecte objetivos, atividades e evidências de aprendizagem. Quando pertinente, explore interpretação de dados, argumentação científica e aplicação a situações reais.
+- Se criar questões, varie os contextos e evite ambiguidades, pistas involuntárias e alternativas obviamente absurdas. Garanta que exista uma resposta correta quando o formato exigir.
+- Em cálculos, mostre dados, fórmula, substituição, unidades e raciocínio. Confira resultados e consistência dimensional.
+
+RECURSOS VISUAIS
+${visuals.length ? visuals.map(x => '- ' + x).join('\n') : '- Não foi selecionado um recurso visual específico; use apenas recursos que contribuam para a aprendizagem.'}
+- Estilo visual: ${value('estilo')}
+- Acessibilidade: ${value('acessibilidade')}
+- Todos os elementos visuais devem ter finalidade didática, títulos/legendas claros, contraste adequado e descrição textual. Não dependa apenas de cores para transmitir informação.
+- Se a ferramenta de destino não puder renderizar imagens, forneça uma descrição detalhada ou um esquema textual reproduzível.
+- Em tabela periódica, fórmulas, equações, diagramas e gráficos, confira símbolos, rótulos, unidades, escalas e relações científicas.
+
+INSTRUÇÕES ADICIONAIS
+${value('restricoes') || 'Nenhuma instrução adicional fornecida.'}
+
+FORMATO DA ENTREGA
+1. Apresente um título e o objetivo de aprendizagem.
+2. Produza o material solicitado com seções e instruções organizadas.
+3. Inclua os recursos visuais selecionados ou especificações claras para produzi-los.
+4. Inclua respostas, comentários ou critérios conforme a opção escolhida.
+5. Finalize com uma lista curta de verificação docente: precisão científica, adequação à série, acessibilidade e alinhamento curricular.
+6. Diferencie fatos científicos de simplificações didáticas. Quando houver incerteza ou informação dependente de fonte atual, sinalize a necessidade de verificação.
+
+CRITÉRIO FINAL
+Não afirme que o material está oficialmente validado pela BNCC ou por qualquer órgão. Não invente referências, dados, fontes ou códigos curriculares. Entregue uma primeira versão completa, específica e utilizável, evitando recomendações genéricas.`;
+    $('placeholder').classList.add('d-none');
+    $('resultado').classList.remove('d-none');
+    $('resultado').value = prompt;
+    $('copiar').disabled = false;
+    $('baixar').disabled = false;
+    $('feedback').textContent = `Prompt gerado com ${areas.length} área(s) selecionada(s)${visuals.length ? ` e ${visuals.length} recurso(s) visual(is)` : ''}. Você pode editar o texto antes de copiar.`;
+    $('feedback').className = 'small mt-3 text-success';
+  });
+  $('copiar').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText($('resultado').value);
+      $('feedback').textContent = 'Prompt copiado para a área de transferência.';
+      $('feedback').className = 'small mt-3 text-success';
+    } catch {
+      $('resultado').select();
+      document.execCommand('copy');
+      $('feedback').textContent = 'Se a cópia não ocorrer automaticamente, use Ctrl+C com o texto selecionado.';
+      $('feedback').className = 'small mt-3 text-warning';
+    }
+  });
+  $('baixar').addEventListener('click', () => {
+    const blob = new Blob([$('resultado').value], {type:'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'prompt-mestre-ciencias-da-natureza.txt';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+  $('limpar').addEventListener('click', () => {
+    $('promptForm').reset();
+    $('resultado').value = '';
+    $('resultado').classList.add('d-none');
+    $('placeholder').classList.remove('d-none');
+    $('copiar').disabled = true; $('baixar').disabled = true;
+    $('feedback').textContent = '';
+  });
+})();
+</script>
+</body>
+</html>
